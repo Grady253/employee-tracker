@@ -1,6 +1,7 @@
-const express = require('express');
 const mysql = require('mysql2');
 const inquirer = require('inquirer');
+const utils = require('util');
+
 
 const db = mysql.createConnection(
     {
@@ -12,10 +13,13 @@ const db = mysql.createConnection(
     console.log(`Connected to the movies_db database.`)
 );
 
+db.query = utils.promisfy(db.query);
+
+
 const createPost = async () => {
 
    const department = await db.query('SELECT * FROM department');
-   
+
     console.log(department);
 }
 
@@ -32,7 +36,3 @@ createPost();
 
 //SELECT * EMPLOYEE
 
-
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-  });

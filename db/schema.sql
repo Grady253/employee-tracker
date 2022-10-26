@@ -5,11 +5,12 @@ CREATE DATABASE tracker_db;
 USE tracker_db;
 
 CREATE TABLE department (
-    id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
-    name VARCHAR(30)
+    id INT AUTO_INCREMENT NOT NULL,
+    name VARCHAR(30),
+    PRIMARY KEY (id)
 );
 
-CREATE TABLE roles (
+CREATE TABLE role (
     id INT AUTO_INCREMENT,
     title VARCHAR(30),
     salary DECIMAL,
@@ -23,10 +24,12 @@ CREATE TABLE employee (
    id INT AUTO_INCREMENT,
    first_name VARCHAR(30),
    last_name VARCHAR(30),
-   roles_id INT,
+   role_id INT,
    manager_id INT,
    PRIMARY KEY (id),
-   Foreign Key (roles_id)
-   REFERENCES roles (id)
-
+   Foreign Key (role_id)
+   REFERENCES role (id)
+   ON DELETE CASCADE,
+   FOREIGN KEY (manager_id)
+   REFERENCES employee (id)
 );
