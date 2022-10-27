@@ -2,7 +2,6 @@ const mysql = require('mysql2');
 const inquirer = require('inquirer');
 const utils = require('util');
 
-
 const db = mysql.createConnection(
     {
       host: 'localhost',
@@ -10,20 +9,9 @@ const db = mysql.createConnection(
       password: 'password',
       database: 'tracker_db'
     },
-    console.log(`Connected to the movies_db database.`)
+    console.log(`Connected to the tracker_db database.`)
 );
 
-db.query = utils.promisfy(db.query);
-
-
-const createPost = async () => {
-
-   const department = await db.query('SELECT * FROM department');
-
-    console.log(department);
-}
-
-createPost();
 // view all department 
 
 //SELECT * FROM department 
@@ -36,3 +24,27 @@ createPost();
 
 //SELECT * EMPLOYEE
 
+function start () {
+  inquirer.prompt([
+    {
+      Type: list,
+      message: "Hello, please select from the following list.",
+      name:content,
+      choice:[
+        "View Departments",
+        "Add a Department",
+        "View All Roles",
+        "View one Role",
+        "Add Role",
+        "Update Employee Role",
+        "View Employees",
+        "View One Employee",
+        "Quit App"
+      ]
+    }
+  ]).then((response)=>{
+
+  })
+}
+
+start();
