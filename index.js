@@ -1,6 +1,7 @@
 const mysql = require('mysql2');
 const inquirer = require('inquirer');
 const utils = require('util');
+const { allowedNodeEnvironmentFlags } = require('process');
 
 const db = mysql.createConnection(
     {
@@ -43,8 +44,39 @@ function start () {
       ]
     }
   ]).then((response)=>{
-
-  })
-}
+    switch (response.content) {
+      case "View Departments":
+        viewDepartment();
+        break;
+      case "Add A Department":
+        addDepartment();
+        break;
+      case "View All Roles":
+        viewRoles();
+        break;
+      case "View One Role":
+        viewSingleRole();
+        break;
+      case "Add Role":
+        addRole();
+        break;
+      case "Update Employee Role":
+        updateRole();
+        break;
+      case "View Employees":
+        viewEmployee();
+        break;
+      case "View One Employee":
+        viewSingleEmployee();
+        break;
+      case "Quit App":
+        db.end();
+        break;
+      default:
+        db.end();
+        break;
+    }
+  });
+};
 
 start();
