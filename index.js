@@ -12,18 +12,6 @@ const db = mysql.createConnection(
     console.log(`Connected to the tracker_db database.`)
 );
 
-// view all department 
-
-//SELECT * FROM department 
-
-//view all roles
-
-//SELECT * FROM ROLE
-
-//view all employees
-
-//SELECT * EMPLOYEE
-
 function start () {
   inquirer.prompt([
     {
@@ -32,13 +20,12 @@ function start () {
       type:"list",
       choices:[
         "View Departments",
-        "Add a Department",
+        "Add Department",
         "View All Roles",
-        "View one Role",
         "Add Role",
-        "Update Employee Role",
+        "Update Role",
         "View Employee",
-        "View One Employee",
+        "Add Employee",
         "Quit App"
       ],
     },
@@ -47,26 +34,23 @@ function start () {
       case "View Departments":
         viewDepartment();
         break;
-      case "Add A Department":
-        // addDepartment();
+      case "Add Department":
+        addDepartment();
         break;
       case "View All Roles":
         viewRoles();
         break;
-      case "View One Role":
-        viewSingleRole();
-        break;
       case "Add Role":
         // addRole();
         break;
-      case "Update Employee Role":
+      case "Update Role":
         // updateRole();
         break;
       case "View Employee":
         viewEmployee();
         break;
-      case "View One Employee":
-        // viewSingleEmployee();
+      case "Add Employee":
+        // addSingleEmployee();
         break;
       case "Quit App":
         db.end();
@@ -80,22 +64,36 @@ function start () {
 
 start();
 
-function  viewSingleRole() {
-  
-}
 
 function viewDepartment(){
   db.query('SELECT * FROM `department`', function (err, results) {
     if (err) throw (err);
     console.table(results); 
   });
+  start();
 };
+
+function addDepartment(){
+ inquirer.prompt([
+   {
+     message:"Name of new department?",
+     name:"departmentName",
+     type:"input" 
+   }
+ ]).then((response)=>{
+   db.query('INSERT INTO department (name) VALUES (?)', response.departmentName, (err, results)=>{
+     if (err) throw (err);
+   });
+   start();
+ });
+}
 
 function viewEmployee(){
   db.query('SELECT * FROM `employee`', function (err, results) {
     if (err) throw (err);
     console.table(results); 
   });
+  start();
 };
 
 function viewRoles(){
@@ -103,4 +101,5 @@ function viewRoles(){
     if (err) throw (err);
     console.table(results); 
   });
+  start();
 };
