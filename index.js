@@ -1,5 +1,6 @@
 const mysql = require('mysql2');
 const inquirer = require('inquirer');
+const table = require('console.table');
 
 const db = mysql.createConnection(
     {
@@ -36,7 +37,7 @@ function start () {
         "View one Role",
         "Add Role",
         "Update Employee Role",
-        "View Employees",
+        "View Employee",
         "View One Employee",
         "Quit App"
       ],
@@ -47,13 +48,13 @@ function start () {
         viewDepartment();
         break;
       case "Add A Department":
-        addDepartment();
+        // addDepartment();
         break;
       case "View All Roles":
-        // viewRoles();
+        viewRoles();
         break;
       case "View One Role":
-        // viewSingleRole();
+        viewSingleRole();
         break;
       case "Add Role":
         // addRole();
@@ -61,8 +62,8 @@ function start () {
       case "Update Employee Role":
         // updateRole();
         break;
-      case "View Employees":
-        // viewEmployee();
+      case "View Employee":
+        viewEmployee();
         break;
       case "View One Employee":
         // viewSingleEmployee();
@@ -76,15 +77,30 @@ function start () {
     }
   });
 };
+
 start();
 
+function  viewSingleRole() {
+  
+}
+
 function viewDepartment(){
-  db.query('SELECT * FROM department', function (err, results) {
+  db.query('SELECT * FROM `department`', function (err, results) {
     if (err) throw (err);
-    console.log(results); 
+    console.table(results); 
   });
 };
 
-function addDepartment(){
+function viewEmployee(){
+  db.query('SELECT * FROM `employee`', function (err, results) {
+    if (err) throw (err);
+    console.table(results); 
+  });
+};
 
-}
+function viewRoles(){
+  db.query('SELECT * FROM `role`', function (err, results) {
+    if (err) throw (err);
+    console.table(results); 
+  });
+};
