@@ -1,7 +1,5 @@
 const mysql = require('mysql2');
 const inquirer = require('inquirer');
-const utils = require('util');
-const { allowedNodeEnvironmentFlags } = require('process');
 
 const db = mysql.createConnection(
     {
@@ -28,10 +26,10 @@ const db = mysql.createConnection(
 function start () {
   inquirer.prompt([
     {
-      Type: list,
       message: "Hello, please select from the following list.",
-      name:content,
-      choice:[
+      name:"content",
+      type:"list",
+      choices:[
         "View Departments",
         "Add a Department",
         "View All Roles",
@@ -41,8 +39,8 @@ function start () {
         "View Employees",
         "View One Employee",
         "Quit App"
-      ]
-    }
+      ],
+    },
   ]).then((response)=>{
     switch (response.content) {
       case "View Departments":
@@ -52,22 +50,22 @@ function start () {
         addDepartment();
         break;
       case "View All Roles":
-        viewRoles();
+        // viewRoles();
         break;
       case "View One Role":
-        viewSingleRole();
+        // viewSingleRole();
         break;
       case "Add Role":
-        addRole();
+        // addRole();
         break;
       case "Update Employee Role":
-        updateRole();
+        // updateRole();
         break;
       case "View Employees":
-        viewEmployee();
+        // viewEmployee();
         break;
       case "View One Employee":
-        viewSingleEmployee();
+        // viewSingleEmployee();
         break;
       case "Quit App":
         db.end();
@@ -78,5 +76,15 @@ function start () {
     }
   });
 };
-
 start();
+
+function viewDepartment(){
+  db.query('SELECT * FROM department', function (err, results) {
+    if (err) throw (err);
+    console.log(results); 
+  });
+};
+
+function addDepartment(){
+
+}
