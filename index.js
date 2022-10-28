@@ -41,7 +41,7 @@ function start () {
         viewRoles();
         break;
       case "Add Role":
-        // addRole();
+        addRole();
         break;
       case "Update Role":
         // updateRole();
@@ -50,7 +50,7 @@ function start () {
         viewEmployee();
         break;
       case "Add Employee":
-        // addSingleEmployee();
+        // addEmployee();
         break;
       case "Quit App":
         db.end();
@@ -63,15 +63,6 @@ function start () {
 };
 
 start();
-
-
-function viewDepartment(){
-  db.query('SELECT * FROM `department`', function (err, results) {
-    if (err) throw (err);
-    console.table(results); 
-  });
-  start();
-};
 
 function addDepartment(){
  inquirer.prompt([
@@ -88,16 +79,59 @@ function addDepartment(){
  });
 }
 
-function viewEmployee(){
-  db.query('SELECT * FROM `employee`', function (err, results) {
+function viewDepartment(){
+  db.query('SELECT * FROM `department`', function (err, results) {
     if (err) throw (err);
     console.table(results); 
   });
   start();
 };
 
+function addRole(){
+  db.query('SELECT * FROM department', function (err, results){
+    if (err) throw err;
+    const data = results.map(department => ({ 
+        name: department.name,
+        value: department.id
+    }));
+    inquirer.prompt([
+      {
+        message:"What's the name of the new role?",
+        name:"title",
+        type:"input"
+      },
+      {
+        message:"How much will this position make per year?",
+        name:"Salary",
+        type:"input"
+      },
+      {
+        message:"Which department does this role belong to?",
+        name:"department",
+        type:"list",
+        choices:data
+      }
+    ]).then((response)=>{
+      db.query("INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)",[results.title, results.Salary, results.department], function (err, results){
+        if (err) throw (err);
+      });
+      console.table(response);
+      start();
+    })
+  });
+}
+
 function viewRoles(){
   db.query('SELECT * FROM `role`', function (err, results) {
+    if (err) throw (err);
+    console.table(results); 
+  });
+  start();
+};
+
+
+function viewEmployee(){
+  db.query('SELECT * FROM `employee`', function (err, results) {
     if (err) throw (err);
     console.table(results); 
   });
