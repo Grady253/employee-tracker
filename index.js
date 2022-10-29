@@ -158,7 +158,7 @@ function addEmployee() {
       name: employee.first_name + "" + employee.last_name,
       value: employee.id,
     }));
-
+      console.log(employeeSpot);
     db.query("SELECT * FROM role", function (err, results) {
       if (err) throw err;
       const employeeRoles = results.map((role) => ({
@@ -195,10 +195,10 @@ function addEmployee() {
           db.query(
             "INSERT INTO employee (first_name,last_name,role_id,manager_id) VALUE (?,?,?,?)",
             [
-              results.first_name,
-              results.last_name,
-              results.role_id,
-              results.manager_id,
+              response.first_name,
+              response.last_name,
+              response.role_id,
+              response.manager_id,
             ],
             function (err, results) {
               if (err) throw err;
