@@ -46,7 +46,7 @@ function start() {
           addRole();
           break;
         case "Update Role":
-          // updateRole();
+          updateRole();
           break;
         case "View Employee":
           viewEmployee();
@@ -124,7 +124,7 @@ function addRole() {
       .then((response) => {
         db.query(
           "INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)",
-          [results.title, results.Salary, results.department],
+          [response.title, response.Salary, response.department],
           function (err, results) {
             if (err) throw err;
           }
@@ -158,7 +158,7 @@ function addEmployee() {
       name: employee.first_name + "" + employee.last_name,
       value: employee.id,
     }));
-      console.log(employeeSpot);
+
     db.query("SELECT * FROM role", function (err, results) {
       if (err) throw err;
       const employeeRoles = results.map((role) => ({
@@ -199,6 +199,66 @@ function addEmployee() {
               response.last_name,
               response.role_id,
               response.manager_id,
+            ],
+            function (err, results) {
+              if (err) throw err;
+            }
+          );
+          console.table(response);
+          start();
+        });
+    });
+  });
+}
+
+function updateRole() {
+  db.query("SELECT * FROM employee", function (err, results) {
+    if (err) throw err;
+    const employeeSpot = results.map((employee) => ({
+      name: employee.first_name + "" + employee.last_name,
+      value: employee.id,
+    }));
+
+    db.query("SELECT * FROM role", function (err, results) {
+      if (err) throw err;
+      const employeeRoles = results.map((role) => ({
+        name: role.title,
+        value: role.id,
+      }));
+
+      inquirer
+        .prompt([
+          {
+            message: "Which employee do you want to update?",
+            name: "employeeId",
+            type: "list",
+            choices: employeeSpot,
+          },
+          {
+            message: "Please give first name.",
+            name: "first_name",
+            type: "input",
+          },
+          {
+            message: "Please give last name.",
+            name: "last_name",
+            type: "input",
+          },
+          {
+            message: "Please select a role from the following choices.",
+            name: "role_id",
+            type: "list",
+            choices: employeeRoles,
+          },
+        ])
+        .then((response) => {
+          db.query(
+            "UPDATE employee SET first_name = ?,last_name = ?,role_id = ? WHERE id = ? ",
+            [
+              response.first_name,
+              response.last_name,
+              response.role_id,
+              response.employeeId
             ],
             function (err, results) {
               if (err) throw err;
