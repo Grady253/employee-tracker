@@ -50,7 +50,7 @@ function start () {
         viewEmployee();
         break;
       case "Add Employee":
-        // addEmployee();
+        addEmployee();
         break;
       case "Quit App":
         db.end();
@@ -91,8 +91,8 @@ function addRole(){
   db.query('SELECT * FROM department', function (err, results){
     if (err) throw err;
     const data = results.map(department => ({ 
-        name: department.name,
-        value: department.id
+      name: department.name,
+      value: department.id
     }));
     inquirer.prompt([
       {
@@ -131,9 +131,58 @@ function viewRoles(){
 
 
 function viewEmployee(){
-  db.query('SELECT * FROM `employee`', function (err, results) {
+  db.query('SELECT * FROM employee', function (err, results) {
     if (err) throw (err);
     console.table(results); 
   });
   start();
 };
+
+function addEmployee(){
+  db.query('SELECT * FROM employee', function (err, results){
+    if (err) throw err;
+    const employeeSpot = results.map(employee=>({
+      name: employee.first_name + '' + employee.last_name,
+      value:employee.id
+    }));
+
+    db.query('SELECT * FROM role', function (err, results){
+      if (err) throw err;
+      const employeeRoles = results.map(role=>({
+        name:role.title,
+        value:role.id
+      }));
+      
+      inquirer.prompt([
+        {
+          message:"Please give first name.",
+          name:"first_name",
+          type:"input"
+        },
+        {
+          message:"Please give last name.",
+          name:"last_name",
+          type:"input"
+        },
+        {
+          message:"Please pick role from the following choices.",
+          name:"role_id",
+          type:"list",
+          choices:employeeRoles
+        },
+        {
+          message:"Who's your Manager",
+          name:"manager_id",
+          type:"list",
+          choices:employeeSpot
+        }
+      ]).then((response)=>{
+        db.query('INSERT INTO employee (first_name,last_name,role_id,manager_id) VALUE (?,?,?,?)',[results.first_name, results.last_name, results.role_id, results.manager_id],function(err, results){
+          if (err) throw err;
+        });
+        console.table(response);
+        start();
+      })
+    });
+    });
+}
