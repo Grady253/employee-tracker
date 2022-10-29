@@ -15,8 +15,4 @@ INSERT INTO employee (first_name,last_name,role_id,manager_id)
     ("Samatha", "Rock", 2,NULL),
     ('Chris', 'Newman', 3,NULL),
     ('Randy', 'Middleton', 4,NULL),
-    ('Rack', 'Sheet', 2, NULL),
-    ('Western', 'Sockman',3,NULL),
-    ('Black', 'Smith', 1, NULL),
-    ('Charles', 'Digs', 2, NULL),
-    ('Simon', 'Smiley', 1, NULL);
+    ('Rack', 'Sheet', 2, NULL);

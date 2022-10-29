@@ -1,6 +1,6 @@
 const mysql = require("mysql2");
 const inquirer = require("inquirer");
-const table = require("console.table");
+require("console.table");
 
 const db = mysql.createConnection(
   {
@@ -91,8 +91,8 @@ function viewDepartment() {
   db.query("SELECT * FROM `department`", function (err, results) {
     if (err) throw err;
     console.table(results);
+    start();
   });
-  start();
 }
 
 function addRole() {
@@ -139,16 +139,16 @@ function viewRoles() {
   db.query("SELECT * FROM `role`", function (err, results) {
     if (err) throw err;
     console.table(results);
+    start();
   });
-  start();
 }
 
 function viewEmployee() {
   db.query("SELECT * FROM employee", function (err, results) {
     if (err) throw err;
     console.table(results);
+    start();
   });
-  start();
 }
 
 function addEmployee() {
