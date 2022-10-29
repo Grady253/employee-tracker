@@ -16,7 +16,7 @@
  The steps to install the application are In order to install this application, you'll need to run mysql, login, source the schema file, then you'll source the seeds database, once you quit mysql you'll run the command node index.js .
 
  ## Usage
- [Homework 12 DEMO.wenm]()
+[Homework 12.webm](https://user-images.githubusercontent.com/104874843/198852876-2bbef372-ddfc-4f81-9862-e3a279ec0668.webm)
 
  ## Credits
  [my Github:](https://www.github.com/Grady253)
